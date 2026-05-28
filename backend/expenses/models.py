@@ -4,6 +4,9 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=50)
 
+    class Meta:
+        verbose_name_plural = "Categories" # Wymuszamy poprawną liczbę mnogą
+
     def __str__(self):
         return self.name
     
@@ -16,4 +19,4 @@ class Expense(models.Model):
     date = models.DateField()
 
     def __str__(self):
-        return f"{self.name} -> {self.price}PLN x {self.count} -> {self.date}"
+        return f"{self.title} -> {self.price}PLN x {self.count} -> {self.date}"
