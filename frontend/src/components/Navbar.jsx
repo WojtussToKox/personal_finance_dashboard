@@ -1,17 +1,35 @@
-import { Link } from 'react-router-dom'
-import './Navbar.css' 
+import { Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 
-function Navbar() {
+
+function Navigation() {
   return (
-    <nav className="navbar">
-      <h3 className="navbar-brand">FinanceApp</h3>
-      <div className="navbar-links">
-        <Link to="/" className="navbar-link">Pulpit</Link>
-        <Link to="/incomes" className="navbar-link">Przychody</Link>
-        <Link to="/expenses" className="navbar-link">Wydatki</Link>
-      </div>
-    </nav>
-  )
+    <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
+      <Container>
+        <Navbar.Brand as={Link} to="/">FinanceApp</Navbar.Brand>
+        
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            
+            <NavDropdown title="Przychody" id="incomes-dropdown">
+              <NavDropdown.Item as={Link} to="/incomes">Lista przychodów</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/incomes/add">Dodaj przychód</NavDropdown.Item>
+            </NavDropdown>
+
+            <NavDropdown title="Wydatki" id="expenses-dropdown">
+              <NavDropdown.Item as={Link} to="/expenses">Lista wydatków</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/expenses/add">Dodaj wydatek</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
-export default Navbar
+export default Navigation;
