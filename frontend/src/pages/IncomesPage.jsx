@@ -15,7 +15,7 @@ function IncomesPage() {
       <h2>💸 Twoje Przychody</h2>
       <ul>
         {incomes.map((income) => (
-          <li key={income.id}>
+          <li key={income.id} className='list-item income-item'>
             {income.title} - {income.value} PLN (Kategoria: {income.category_name})
           </li>
         ))}
