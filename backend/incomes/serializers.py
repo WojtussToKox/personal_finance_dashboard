@@ -7,9 +7,12 @@ class IncomeCategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 class DefaultIncomeSerializer(serializers.ModelSerializer):
+
+    category_name = serializers.CharField(source='category.name', read_only = True)
+
     class Meta:
         model = Income
-        fields = ['id', 'category', 'title', 'value', 'date']
+        fields = ['id', 'category', 'category_name', 'title', 'value', 'date']
 
 class DynamicIncomeSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
