@@ -16,7 +16,7 @@ function ExpensesPage() {
         <ul>
             {expenses.map((expense) => (
                 <li key={expense.id} className='list-item expense-item'>
-                    {expense.title} - {expense.price}PLN x {expense.count} (Kategoria: {expense.category})
+                    {expense.title} - {expense.price}PLN x {expense.count} (Kategoria: {expense.category_name})
                 </li>
             ))}
         </ul>
