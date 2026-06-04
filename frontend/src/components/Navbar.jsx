@@ -25,6 +25,12 @@ function Navigation() {
               <NavDropdown.Item as={Link} to="/expenses">Lista wydatków</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/expenses/add">Dodaj wydatek</NavDropdown.Item>
             </NavDropdown>
+
+            <NavDropdown title="Kategorie" id="categories-dropdown">
+              <NavDropdown.Item as={Link} to="/categories/expenses">Zarządzanie Kategoriami Wydatków</NavDropdown.Item>
+              <NavDropdown.Item as={Link} to="/categories/incomes">Zarządzanie Kategoriami Przychodów</NavDropdown.Item>
+            </NavDropdown>
+
           </Nav>
         </Navbar.Collapse>
       </Container>

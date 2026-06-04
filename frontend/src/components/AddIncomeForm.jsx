@@ -43,7 +43,8 @@ function AddIncomeForm() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(newIncome),
-            }))
+            })
+        )
     }
 
     const handleSubmit = (e) => {
@@ -73,7 +74,7 @@ function AddIncomeForm() {
             <label>Podaj Kategorię: </label>
                 <select 
                     value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+                    onChange={(e) => setCategory(Number(e.target.value))}
                     required
                 >
                     <option value="" disabled>Wybierz kategorię...</option>
