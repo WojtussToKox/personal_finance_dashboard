@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { Card, Form, Button} from 'react-bootstrap';
 import { useNavigate, useParams} from 'react-router-dom';
 
 function EditExpenseForm () {
@@ -76,67 +77,82 @@ function EditExpenseForm () {
     }
 
     return (
-        <form onSubmit={handleSaveAndExit}>
-            <label>Podaj Kategorie:</label>
-            <select 
-                value={category}
-                onChange={(e) => setCategory(Number(e.target.value))} 
-                required 
-            >
-                <option value="" disabled> Wybierz Kategorie... </option>
-                {categories.map((category) => (
-                        <option key={category.id} value={category.id}>{category.name}</option>
-                    ))}
-            </select>
-            <br />
+        <Card bg="light" className='shadow-sm mt-4 '>
+            <Card.Body>
+                <Card.Title className='text-center mb-4'>Zmień Dane</Card.Title>
+                <Form onSubmit={handleSaveAndExit}>
+                    <Form.Group className='mb-2' controlId='formCategory'>
+                        <Form.Label>Podaj Kategorię: </Form.Label>
+                        <Form.Select 
+                            value={category}
+                            onChange={(e) => setCategory(Number(e.target.value))}
+                            required
+                            className='shadow-sm'
+                        >
+                            <option value="" disabled> Wybierz Kategorie... </option>
+                        {categories.map((category) => (
+                                <option key={category.id} value={category.id}>{category.name}</option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
+                    
+                    <Form.Group className='mb-2'>
+                        <Form.Label>Podaj tytuł: </Form.Label>
+                        <Form.Control
+                            type="text" 
+                            value={title}
+                            maxLength="50"
+                            onChange={(e) => setTitle(e.target.value)}
+                            required
+                            placeholder='np. Kebab na mieście'
+                            className='shadow-sm'
+                        />
+                    </Form.Group>
 
-            <label>Podaj tytuł: </label>
-            <input 
-                type="text" 
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                maxLength='50'
-                placeholder='np. "Kebab na mieście"'
-                required
-            />
-            <br />
+                    <Form.Group className='mb-2'>
+                        <Form.Label>Podaj cenę: </Form.Label>
+                        <Form.Control 
+                            type="number"
+                            value={price}
+                            min="0.01"
+                            step="0.01"
+                            onChange={(e) => setPrice(Number(e.target.value))}
+                            required
+                            className='shadow-sm'
+                        />
+                    </Form.Group>         
+                    
+                    <Form.Group className='mb-2'>
+                        <Form.Label>Podaj ilość: </Form.Label>
+                        <Form.Control 
+                            type="number"
+                            value={count}
+                            min="1"
+                            step="1"
+                            onChange={(e) => setPrice(Number(e.target.value))}
+                            required
+                            className='shadow-sm'
+                        />
+                    </Form.Group>   
+                    
+                    <Form.Group className='mb-3'>
+                        <Form.Label>Podaj datę: </Form.Label>
+                        <Form.Control 
+                            type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+                        max={today}
+                        required
+                            className='shadow-sm'
+                        />
+                    </Form.Group>   
+                    
 
-            
-            <label>Podaj cenę: </label>
-            <input 
-                type="number" 
-                value={price}
-                onChange={(e) => setPrice(Number(e.target.value))}
-                min='0.01'
-                step='0.01'
-                required
-            />
-            <br />
-            
-            <label>Podaj ilość: </label>
-            <input 
-                type="number" 
-                value={count}
-                onChange={(e) => setCount(Number(e.target.value))}
-                min='1'
-                step='1'
-                required
-            />
-            <br />
-            
-            <label>Podaj date: </label>
-            <input 
-                type="date"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-                max={today}
-                required
-            />
-            <br />
+                    <Button type = 'submit'>Zapisz i wyjdź</Button>
 
-            <button type = 'submit'>Zapisz i wyjdź</button>
-
-        </form>
+                </Form>
+            </Card.Body>
+        </Card>
     )
 }
 

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Card, Form, Button } from "react-bootstrap"
 
 function AddExpenseCategoryForm({onAdd}) {
 
@@ -33,20 +34,27 @@ function AddExpenseCategoryForm({onAdd}) {
     return (
         <>
             <h2>Dodaj Nowa Kategorie Wydatku</h2>
-            <form onSubmit={handleSubmit}>
-                <label>Nazwa Kategorii: </label>
-                <input 
-                    type="text"
-                    value={name}
-                    maxLength="50"
-                    required
-                    placeholder='np. "Elektronika"'
-                    onChange={(e) => setName(e.target.value)}
-                />
-                <br />
+            <Card bg="light" className="mb-4">
+                <Card.Body>
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3">
+                            <Form.Label className="fs-4">Nazwa Kategorii: </Form.Label>
+                            <Form.Control 
+                                type="text"
+                                value={name}
+                                maxLength="50"
+                                required
+                                placeholder='np. "Elektronika"'
+                                onChange={(e) => setName(e.target.value)}
+                                className="shadow"
+                            />
+                        </Form.Group>
 
-                <button type = "submit">Dodaj</button>
-            </form>
+                        <Button type="submit">Dodaj</Button>
+                    </Form>
+
+                </Card.Body>
+            </Card>
         </>
     )
 }

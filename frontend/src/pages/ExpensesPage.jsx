@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/esm/Button';
+import { Button, Container } from 'react-bootstrap';
 import ExpenseEditForm from './ExpenseEditForm';
 import { Link } from 'react-router-dom';
 
@@ -30,18 +30,20 @@ function ExpensesPage() {
     }
 
     return (
-        <div>
+        <Container>
             <h2>Lista Wydatków...</h2>
             <ul>
                 {expenses.map((expense) => (
-                    <li key={expense.id} className='list-item expense-item'>
+                    <li key={expense.id} className='list-item expense-item d-flex justify-content-between align-items-center'>
                         {expense.title} - {expense.price}PLN x {expense.count} (Kategoria: {expense.category_name})
-                        <Button onClick={() => handleDelete(expense.id)}>Usuń</Button>
-                        <Button as={Link} to={`/expenses/edit/${expense.id}`}>Edytuj</Button>
+                        <div>
+                            <Button variant="danger" onClick={() => handleDelete(expense.id)}>Usuń</Button>
+                            <Button variant="warning" className="ms-2" as={Link} to={`/expenses/edit/${expense.id}`}>Edytuj</Button>
+                        </div>
                     </li>
                 ))}
             </ul>
-        </div>
+        </Container>
     )
 }
 
