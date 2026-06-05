@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Button from 'react-bootstrap/Button'
+import { Link } from 'react-router-dom';
 
 function IncomesPage() {
   const [incomes, setIncomes] = useState([])
@@ -36,6 +37,7 @@ function IncomesPage() {
           <li key={income.id} className='list-item income-item'>
             {income.title} - {income.value} PLN (Kategoria: {income.category_name})
              <Button onClick={() => handleDelete(income.id)}>Usuń</Button>
+             <Button as={Link} to={`/incomes/edit/${income.id}`}>Edytuj</Button>
           </li>
         ))}
       </ul>

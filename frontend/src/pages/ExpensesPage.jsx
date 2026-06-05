@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/esm/Button';
+import ExpenseEditForm from './ExpenseEditForm';
+import { Link } from 'react-router-dom';
 
 function ExpensesPage() {
     const [expenses, setExpenses] = useState([])
@@ -35,6 +37,7 @@ function ExpensesPage() {
                     <li key={expense.id} className='list-item expense-item'>
                         {expense.title} - {expense.price}PLN x {expense.count} (Kategoria: {expense.category_name})
                         <Button onClick={() => handleDelete(expense.id)}>Usuń</Button>
+                        <Button as={Link} to={`/expenses/edit/${expense.id}`}>Edytuj</Button>
                     </li>
                 ))}
             </ul>
