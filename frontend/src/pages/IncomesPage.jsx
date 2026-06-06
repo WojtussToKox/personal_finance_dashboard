@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import Button from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
 
 function IncomesPage() {
   const [incomes, setIncomes] = useState([])
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/incomes/Incomes/`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`)
       .then(response => response.json())
       .then(data => setIncomes(data))
       .catch(error => console.error("Błąd połączenia:", error));
@@ -14,7 +14,7 @@ function IncomesPage() {
 
   const handleDelete = (id) => {
     if(window.confirm("Czy na pewno chcesz usunąć ten wpis?")) {
-      fetch(`http://127.0.0.1:8000/api/incomes/Incomes/${id}/`, {
+      fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`, {
         method: "DELETE"
       })
       .then(respone => {

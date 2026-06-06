@@ -17,7 +17,7 @@ function EditIncomeForm() {
     const { id } = useParams();
     
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/incomes/Categories/")
+        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`)
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.log(error))
@@ -25,7 +25,7 @@ function EditIncomeForm() {
 
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/incomes/Incomes/${id}/`)
+        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`)
         .then(response => response.json())
         .then(data => {
             setCategory(data.category)
@@ -53,7 +53,7 @@ function EditIncomeForm() {
         };
 
         return(
-            fetch(`http://127.0.0.1:8000/api/incomes/Incomes/${id}/`, {
+            fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

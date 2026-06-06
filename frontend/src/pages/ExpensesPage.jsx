@@ -7,7 +7,7 @@ function ExpensesPage() {
     const [expenses, setExpenses] = useState([])
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/expenses/expenses/')
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`)
         .then(response => response.json())
         .then(data => setExpenses(data))
         .catch(error => console.error("Błąd połączenia:", error));
@@ -15,7 +15,7 @@ function ExpensesPage() {
 
     const handleDelete = (id) => {
         if(window.confirm("Czy na pewno chcesz usunąć ten wydatek")) {
-            fetch(`http://127.0.0.1:8000/api/expenses/expenses/${id}/`, {
+            fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
                 method: "DELETE"
             })
             .then(response => {
