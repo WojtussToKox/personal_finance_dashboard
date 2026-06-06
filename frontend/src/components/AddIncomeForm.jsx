@@ -11,7 +11,7 @@ function AddIncomeForm() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        fetch("http://127.0.0.1:8000/api/incomes/Categories/")
+        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`)
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.log(error))
@@ -38,7 +38,7 @@ function AddIncomeForm() {
         };
 
         return(
-            fetch('http://127.0.0.1:8000/api/incomes/Incomes/', {
+            fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

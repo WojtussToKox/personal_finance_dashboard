@@ -19,14 +19,14 @@ function EditExpenseForm () {
     const { id } = useParams();
 
     useEffect(() => {
-        fetch('http://127.0.0.1:8000/api/expenses/categories/')
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`)
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.error("Coś poszło nie tak -> ", error))
     }, [])
 
     useEffect(() => {
-        fetch(`http://127.0.0.1:8000/api/expenses/expenses/${id}/`)
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`)
         .then(response => response.json())
         .then(data => {
             setCategory(data.category)
@@ -56,7 +56,7 @@ function EditExpenseForm () {
         }
 
         return(
-            fetch(`http://127.0.0.1:8000/api/expenses/expenses/${id}/`, {
+            fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",

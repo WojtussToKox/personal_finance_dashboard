@@ -13,7 +13,7 @@ function AddIncomeCategoryForm({onAdd}) {
             "name": name,
         }
 
-        fetch('http://127.0.0.1:8000/api/incomes/Categories/', {
+        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`, {
             method: "POST",
             body: JSON.stringify(newIncome),
             headers: {

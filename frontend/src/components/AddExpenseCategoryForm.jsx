@@ -12,7 +12,7 @@ function AddExpenseCategoryForm({onAdd}) {
             "name": name
         }
 
-        fetch('http://127.0.0.1:8000/api/expenses/categories/', {
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
             method: "POST",
             body: JSON.stringify(newCategory),
             headers: {
