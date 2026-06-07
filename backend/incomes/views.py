@@ -1,16 +1,29 @@
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from .models import IncomeCategory, Income
 from .serializers import IncomeCategorySerializer, DefaultIncomeSerializer, DynamicIncomeSerializer
 
 # Create your views here.
 
 class IncomeCategoryViewSet(viewsets.ModelViewSet):
-    queryset = IncomeCategory.objects.all()
     serializer_class = IncomeCategorySerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        return IncomeCategory.objects.filter(user=self.request.user)
+
+    # 3. Kiedy użytkownik dodaje nową kategorię, przypisujemy mu ją
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class DefaultIncomeViewSet(viewsets.ModelViewSet):
-    queryset = Income.objects.all()
     serializer_class = DefaultIncomeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Income.objects.filter(user=self.request.user)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 class OnlyTitleIncomeViewSet(viewsets.ModelViewSet):
     queryset = Income.objects.all()

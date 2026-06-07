@@ -8,7 +8,7 @@ function AddIncomeCategoryForm({onAdd}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
+        const token = localStorage.getItem('access');
         const newIncome = {
             "name": name,
         }
@@ -17,7 +17,8 @@ function AddIncomeCategoryForm({onAdd}) {
             method: "POST",
             body: JSON.stringify(newIncome),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
         })
             .then(response => response.json())

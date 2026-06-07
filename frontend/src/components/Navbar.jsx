@@ -1,11 +1,23 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Navigate } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 
 function Navigation() {
+
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
+
+    navigate('/login')
+  }
+
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="mb-4">
       <Container>
@@ -30,8 +42,9 @@ function Navigation() {
               <NavDropdown.Item as={Link} to="/categories/expenses">Zarządzanie Kategoriami Wydatków</NavDropdown.Item>
               <NavDropdown.Item as={Link} to="/categories/incomes">Zarządzanie Kategoriami Przychodów</NavDropdown.Item>
             </NavDropdown>
-
           </Nav>
+          
+          <Button variant="outline-light" onClick={handleLogout}>Wyloguj</Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -7,7 +7,7 @@ function AddExpenseCategoryForm({onAdd}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-
+        const token = localStorage.getItem('access');
         const newCategory = {
             "name": name
         }
@@ -16,7 +16,8 @@ function AddExpenseCategoryForm({onAdd}) {
             method: "POST",
             body: JSON.stringify(newCategory),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
         })
             .then(response => response.json())

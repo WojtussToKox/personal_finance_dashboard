@@ -17,7 +17,14 @@ function AddExpenseForm () {
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`)
+        const token = localStorage.getItem('access');
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.error("Coś poszło nie tak -> ", error))
@@ -26,13 +33,19 @@ function AddExpenseForm () {
 
     const sendDataToServer = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('access');
+
+        if (!title || !category || !date) {
+        alert("Wypełnij wszystkie wymagane pola (Tytuł, Kategoria, Data)!");
+        return Promise.reject("Brak wymaganych danych");
+        }
 
         if((price < 0.01) || count < 1) {
             alert("Podano niewłaśiwe dane");
             return Promise.reject("Błąd walidacji");
         }
 
-        const newIncome = {
+        const newExpense = {
             "title": title,
             "price": price,
             "count": count,
@@ -44,16 +57,25 @@ function AddExpenseForm () {
             fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`, {
                 method: "POST",
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(newIncome),
+                body: JSON.stringify(newExpense),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(JSON.stringify(err));
+                    });
+                }
+               
+                return response.json();
             })
         )
     }
 
     const handleSubmit = (e) => {
-        sendDataToserver(e)
-        .then(response => response.json())
+        sendDataToServer(e)
         .then(data => {
             setCategory('')
             setTitle('')
@@ -68,7 +90,6 @@ function AddExpenseForm () {
 
     const handleSaveAndExit = (e) => {
         sendDataToServer(e)
-        .then(response => response.json())
         .then(data => navigate('/expenses'))
         .catch(error => console.log(error))
     }

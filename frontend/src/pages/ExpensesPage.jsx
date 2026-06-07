@@ -7,7 +7,14 @@ function ExpensesPage() {
     const [expenses, setExpenses] = useState([])
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`)
+        const token = localStorage.getItem('access');
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
         .then(response => response.json())
         .then(data => setExpenses(data))
         .catch(error => console.error("Błąd połączenia:", error));
@@ -15,8 +22,12 @@ function ExpensesPage() {
 
     const handleDelete = (id) => {
         if(window.confirm("Czy na pewno chcesz usunąć ten wydatek")) {
+            const token = localStorage.getItem('access');
             fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
             })
             .then(response => {
                 if (response.ok) {

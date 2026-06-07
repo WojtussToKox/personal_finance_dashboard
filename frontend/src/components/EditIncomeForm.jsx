@@ -17,7 +17,14 @@ function EditIncomeForm() {
     const { id } = useParams();
     
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`)
+        const token = localStorage.getItem('access');
+        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.log(error))
@@ -25,7 +32,14 @@ function EditIncomeForm() {
 
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`)
+        const token = localStorage.getItem('access');
+        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
         .then(response => response.json())
         .then(data => {
             setCategory(data.category)
@@ -38,7 +52,7 @@ function EditIncomeForm() {
 
     const sendDataToServer = (e) => {
         e.preventDefault();
-        
+        const token = localStorage.getItem('access');
         if ((value < 0.01) || (category < 1)) {
             alert("Podano nieprawidłowe dane!");
             return Promise.reject("Błąd walidacji");
@@ -57,6 +71,7 @@ function EditIncomeForm() {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(newIncome),
             })
