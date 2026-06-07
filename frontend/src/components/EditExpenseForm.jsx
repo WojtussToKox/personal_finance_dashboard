@@ -19,14 +19,28 @@ function EditExpenseForm () {
     const { id } = useParams();
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`)
+        const token = localStorage.getItem('access');
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.error("Coś poszło nie tak -> ", error))
     }, [])
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`)
+        const token = localStorage.getItem('access');
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
         .then(response => response.json())
         .then(data => {
             setCategory(data.category)
@@ -41,7 +55,7 @@ function EditExpenseForm () {
 
     const sendDataToServer = (e) => {
         e.preventDefault();
-
+        const token = localStorage.getItem('access');
         if((price < 0.01) || count < 1) {
             alert("Podano niewłaśiwe dane");
             return Promise.reject("Błąd walidacji");
@@ -60,6 +74,7 @@ function EditExpenseForm () {
                 method: "PUT",
                 headers: {
                     "Content-type": "application/json",
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(newIncome),
             })

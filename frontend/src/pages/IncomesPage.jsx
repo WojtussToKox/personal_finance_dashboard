@@ -6,7 +6,14 @@ function IncomesPage() {
   const [incomes, setIncomes] = useState([])
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`)
+    const token = localStorage.getItem('access');
+    fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
       .then(response => response.json())
       .then(data => setIncomes(data))
       .catch(error => console.error("Błąd połączenia:", error));
@@ -14,8 +21,12 @@ function IncomesPage() {
 
   const handleDelete = (id) => {
     if(window.confirm("Czy na pewno chcesz usunąć ten wpis?")) {
+      const token = localStorage.getItem('access');
       fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`, {
-        method: "DELETE"
+        method: "DELETE",
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
       })
       .then(respone => {
         if (respone.ok) {

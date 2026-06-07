@@ -4,8 +4,8 @@ from .views import CategoryViewSet, ExpenseViewSet, HighValueExpenseViewSet
 
 router = DefaultRouter()
 
-router.register(r'categories', CategoryViewSet)
-router.register(r'expenses', ExpenseViewSet)
+router.register(r'categories', CategoryViewSet, basename='categories')
+router.register(r'expenses', ExpenseViewSet, basename='expense')
 router.register(r'high-value-expenses', HighValueExpenseViewSet, basename='high-value-expense')
 
 urlpatterns = [

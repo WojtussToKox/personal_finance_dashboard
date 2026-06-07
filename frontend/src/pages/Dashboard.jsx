@@ -7,14 +7,29 @@ function Dashboard() {
   const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
+
+    const token = localStorage.getItem('access');
+
       // Pobieranie przychodów
-      fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`)
+      fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
           .then(res => res.json())
           .then(data => setIncomes(data))
           .catch(err => console.error(err));
 
       // Pobieranie wydatków
-      fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`)
+      fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
           .then(res => res.json())
           .then(data => setExpenses(data))
           .catch(err => console.error(err));

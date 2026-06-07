@@ -4,9 +4,9 @@ from .views import DefaultIncomeViewSet, CategoryIncomeViewSet, IncomeCategoryVi
 
 router = DefaultRouter()
 
-router.register(r'Incomes', DefaultIncomeViewSet)
+router.register(r'Incomes', DefaultIncomeViewSet, basename='Incomes')
 router.register(r'IncomesByCategory',CategoryIncomeViewSet, basename='IncomesByCategory')
-router.register(r'Categories',IncomeCategoryViewSet)
+router.register(r'Categories',IncomeCategoryViewSet, basename='categories')
 router.register(r'TitleIncomes',OnlyTitleIncomeViewSet, basename='TitleIncomes')
 
 urlpatterns = [

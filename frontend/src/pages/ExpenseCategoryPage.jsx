@@ -6,7 +6,14 @@ function ExpenseCategoryPage() {
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`)
+        const token = localStorage.getItem('access');
+        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
             .then(response => response.json())
             .then(data => setCategories(data))
             .catch(error => console.error(error))
