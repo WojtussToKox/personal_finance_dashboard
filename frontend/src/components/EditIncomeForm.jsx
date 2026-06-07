@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Form, Button, Card } from 'react-bootstrap';
+import { fetchWithAuth } from '../utils/api';
 
 function EditIncomeForm() {
 
@@ -52,7 +53,6 @@ function EditIncomeForm() {
 
     const sendDataToServer = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('access');
         if ((value < 0.01) || (category < 1)) {
             alert("Podano nieprawidłowe dane!");
             return Promise.reject("Błąd walidacji");
@@ -67,12 +67,8 @@ function EditIncomeForm() {
         };
 
         return(
-            fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`, {
+            fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`, {
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${token}`,
-                },
                 body: JSON.stringify(newIncome),
             })
         )

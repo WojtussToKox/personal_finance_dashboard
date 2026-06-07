@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
 
 function ProtectedRoute({ children}) {
-    const token = localStorage.getItem('access');
+    const hasRefreshToken = localStorage.getItem('refresh');
 
-    if(token) {
+    if(hasRefreshToken) {
         return children;
     }
 

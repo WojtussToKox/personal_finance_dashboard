@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Card, Form, Button } from "react-bootstrap"
+import { fetchWithAuth } from '../utils/api';
 
 function AddExpenseCategoryForm({onAdd}) {
 
@@ -7,18 +8,13 @@ function AddExpenseCategoryForm({onAdd}) {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        const token = localStorage.getItem('access');
         const newCategory = {
             "name": name
         }
 
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
+        fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
             method: "POST",
             body: JSON.stringify(newCategory),
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
         })
             .then(response => response.json())
             .then(data => {

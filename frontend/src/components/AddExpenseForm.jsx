@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Form, Button } from 'react-bootstrap'
+import { fetchWithAuth } from '../utils/api';
 
 function AddExpenseForm () {
 
@@ -17,14 +18,7 @@ function AddExpenseForm () {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('access');
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
+        fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`)
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.error("Coś poszło nie tak -> ", error))
@@ -33,7 +27,6 @@ function AddExpenseForm () {
 
     const sendDataToServer = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('access');
 
         if (!title || !category || !date) {
         alert("Wypełnij wszystkie wymagane pola (Tytuł, Kategoria, Data)!");
@@ -54,12 +47,8 @@ function AddExpenseForm () {
         }
 
         return(
-            fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`, {
+            fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
                 body: JSON.stringify(newExpense),
             })
             .then(response => {

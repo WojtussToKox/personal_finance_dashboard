@@ -2,32 +2,25 @@ import { useState, useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import ExpenseEditForm from './ExpenseEditForm';
 import { Link } from 'react-router-dom';
+import { fetchWithAuth } from '../utils/api';
 
 function ExpensesPage() {
     const [expenses, setExpenses] = useState([])
 
     useEffect(() => {
-        const token = localStorage.getItem('access');
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
-        .then(response => response.json())
+        fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`)
+        .then(response => {
+            if (!response.ok) throw new Error("Błąd pobierania");
+            return response.json();
+        })
         .then(data => setExpenses(data))
         .catch(error => console.error("Błąd połączenia:", error));
     }, [])
 
     const handleDelete = (id) => {
         if(window.confirm("Czy na pewno chcesz usunąć ten wydatek")) {
-            const token = localStorage.getItem('access');
-            fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
+            fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
                 method: "DELETE",
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
             })
             .then(response => {
                 if (response.ok) {
