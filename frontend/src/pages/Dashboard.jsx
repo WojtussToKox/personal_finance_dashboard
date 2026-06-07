@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Card, Row, Col } from 'react-bootstrap';
+import { fetchWithAuth } from '../utils/api';
 
 function Dashboard() {
 
@@ -7,32 +8,15 @@ function Dashboard() {
   const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
+    fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`)
+        .then(res => res.json())
+        .then(data => setIncomes(data))
+        .catch(err => console.error(err));
 
-    const token = localStorage.getItem('access');
-
-      // Pobieranie przychodów
-      fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
-          .then(res => res.json())
-          .then(data => setIncomes(data))
-          .catch(err => console.error(err));
-
-      // Pobieranie wydatków
-      fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
-          .then(res => res.json())
-          .then(data => setExpenses(data))
-          .catch(err => console.error(err));
+    fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/`)
+        .then(res => res.json())
+        .then(data => setExpenses(data))
+        .catch(err => console.error(err));
   }, []);
 
   const totalIncome = incomes.reduce((sum, item) => sum + Number(item.value), 0);

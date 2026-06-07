@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Card } from 'react-bootstrap';
+import { fetchWithAuth } from '../utils/api';
 
 function AddIncomeForm() {
 
@@ -11,14 +12,7 @@ function AddIncomeForm() {
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem('access');
-        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
+        fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`)
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.log(error))
@@ -30,7 +24,6 @@ function AddIncomeForm() {
 
     const sendDataToServer = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('access');
         if ((value < 0.01) || (category < 1)) {
             alert("Podano nieprawidłowe dane!");
             return Promise.reject("Błąd walidacji");
@@ -45,12 +38,8 @@ function AddIncomeForm() {
         };
 
         return(
-            fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`, {
+            fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': `Bearer ${token}`
-                },
                 body: JSON.stringify(newIncome),
             })
         )

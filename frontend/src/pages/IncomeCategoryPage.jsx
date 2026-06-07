@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react"
 import AddIncomeCategoryForm from "../components/AddIncomeCategoryForm"
+import { fetchWithAuth } from '../utils/api';
 
 function IncomeCategoryPage () {
     
     const [categories, setCategories] = useState([])
     
     useEffect(() => {
-        const token = localStorage.getItem('access');
-        fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
+        
+        fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/incomes/Categories/`)
             .then(response => response.json())
             .then(data => setCategories(data))
             .catch(error => console.error(error))

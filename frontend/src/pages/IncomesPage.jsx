@@ -1,19 +1,13 @@
 import { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom';
+import { fetchWithAuth } from '../utils/api';
 
 function IncomesPage() {
   const [incomes, setIncomes] = useState([])
 
   useEffect(() => {
-    const token = localStorage.getItem('access');
-    fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
+    fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/`)
       .then(response => response.json())
       .then(data => setIncomes(data))
       .catch(error => console.error("Błąd połączenia:", error));
@@ -21,12 +15,8 @@ function IncomesPage() {
 
   const handleDelete = (id) => {
     if(window.confirm("Czy na pewno chcesz usunąć ten wpis?")) {
-      const token = localStorage.getItem('access');
-      fetch(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`, {
+      fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/incomes/Incomes/${id}/`, {
         method: "DELETE",
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
       })
       .then(respone => {
         if (respone.ok) {

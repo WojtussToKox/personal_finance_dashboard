@@ -1,19 +1,13 @@
 import { useEffect, useState } from "react"
 import AddExpenseCategoryForm from "../components/AddExpenseCategoryForm"
+import { fetchWithAuth } from '../utils/api';
 
 function ExpenseCategoryPage() {
 
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        const token = localStorage.getItem('access');
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
+        fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`)
             .then(response => response.json())
             .then(data => setCategories(data))
             .catch(error => console.error(error))
