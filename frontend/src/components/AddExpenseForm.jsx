@@ -27,6 +27,12 @@ function AddExpenseForm () {
 
     const sendDataToServer = (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('access');
+
+        if (!title || !category || !date) {
+        alert("Wypełnij wszystkie wymagane pola (Tytuł, Kategoria, Data)!");
+        return Promise.reject("Brak wymaganych danych");
+        }
 
         if (!title || !category || !date) {
         alert("Wypełnij wszystkie wymagane pola (Tytuł, Kategoria, Data)!");
