@@ -3,6 +3,10 @@ from rest_framework.permissions import IsAuthenticated
 from .models import IncomeCategory, Income
 from .serializers import IncomeCategorySerializer, DefaultIncomeSerializer, DynamicIncomeSerializer
 
+from django.db.models import Sum, F
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 # Create your views here.
 
 class IncomeCategoryViewSet(viewsets.ModelViewSet):
@@ -11,7 +15,7 @@ class IncomeCategoryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return IncomeCategory.objects.filter(user=self.request.user)
 
-    # 3. Kiedy użytkownik dodaje nową kategorię, przypisujemy mu ją
+    # Kiedy użytkownik dodaje nową kategorię, przypisujemy mu ją
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -24,6 +28,17 @@ class DefaultIncomeViewSet(viewsets.ModelViewSet):
     
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class IncomeSummaryView(APIView):
+    def get(self, request):
+        summary = Income.objects.filter(user=request.user) \
+            .values('category__name') \
+            .annotate(value=Sum('value'))
+        chart_data = [
+            {"name": item['category__name'], "value": item['value']}
+            for item in summary
+        ]
+        return Response(chart_data)
 
 class OnlyTitleIncomeViewSet(viewsets.ModelViewSet):
     queryset = Income.objects.all()
