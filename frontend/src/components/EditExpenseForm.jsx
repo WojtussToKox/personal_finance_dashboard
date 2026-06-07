@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Card, Form, Button} from 'react-bootstrap';
 import { useNavigate, useParams} from 'react-router-dom';
+import { fetchWithAuth } from '../utils/api';
 
 function EditExpenseForm () {
     
@@ -19,28 +20,14 @@ function EditExpenseForm () {
     const { id } = useParams();
 
     useEffect(() => {
-        const token = localStorage.getItem('access');
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
+        fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/categories/`)
         .then(response => response.json())
         .then(data => setCategories(data))
         .catch(error => console.error("Coś poszło nie tak -> ", error))
     }, [])
 
     useEffect(() => {
-        const token = localStorage.getItem('access');
-        fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-      })
+        fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`)
         .then(response => response.json())
         .then(data => {
             setCategory(data.category)
@@ -55,7 +42,6 @@ function EditExpenseForm () {
 
     const sendDataToServer = (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('access');
         if((price < 0.01) || count < 1) {
             alert("Podano niewłaśiwe dane");
             return Promise.reject("Błąd walidacji");
@@ -70,12 +56,8 @@ function EditExpenseForm () {
         }
 
         return(
-            fetch(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
+            fetchWithAuth(`${import.meta.env.VITE_API_URL}/api/expenses/expenses/${id}/`, {
                 method: "PUT",
-                headers: {
-                    "Content-type": "application/json",
-                    'Authorization': `Bearer ${token}`
-                },
                 body: JSON.stringify(newIncome),
             })
         )
@@ -144,7 +126,7 @@ function EditExpenseForm () {
                             value={count}
                             min="1"
                             step="1"
-                            onChange={(e) => setPrice(Number(e.target.value))}
+                            onChange={(e) => setCount(Number(e.target.value))}
                             required
                             className='shadow-sm'
                         />
